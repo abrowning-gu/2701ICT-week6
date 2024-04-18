@@ -20,10 +20,10 @@
       
       <ion-item-sliding *ngFor="let user of users;index as i" #userslider>
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="delete(i,userslider)" >Delete</ion-item-option>
-          <ion-item-option  (click)="edit(i,userslider)">edit</ion-item-option>
+          <ion-item-option color="danger" (click)="delete(i)" >Delete</ion-item-option>
+          <ion-item-option  (click)="edit(i)">edit</ion-item-option>
         </ion-item-options>
-      <ion-item (click)="showUser(i)">
+      <ion-item (click)="displayUserInfo(i)">
         {{user.firstname}},  {{user.lastname}}
       </ion-item>
     </ion-item-sliding>

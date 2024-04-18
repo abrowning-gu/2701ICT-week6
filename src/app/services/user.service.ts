@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Storage } from '@ionic/storage-angular';
+import { Observable,Subject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  userSubject = new Subject();
   public Users:User[] = [];
    private _storage:Storage | null = null;
    
@@ -48,7 +49,13 @@ export class UserService {
       return val;
     });
   }
-    
+   
+  updateUser(user:User, mode:string,indexpos:number){
+    this.userSubject.next({user:user,mode:mode,indexpos:indexpos});
+  }
+  getUser():Observable<any>{
+    return this.userSubject.asObservable();
 
+  }
 
 }
