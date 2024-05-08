@@ -7,7 +7,7 @@
 <ion-content padding>
     <ion-list>
         <ion-item>
-          <ion-input label="Firstname" type="text" [(ngModel)]="firstname" name="firstname" ></ion-input>
+          <ion-input label="Firstname" type="text" [(ngModel)]="firstname" name="firstname"></ion-input>
         </ion-item>
         <ion-item>
          
@@ -16,6 +16,10 @@
         <ion-item>
          
           <ion-input label="Email" type="text" [(ngModel)]="email" name="email" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <input id="fileinput" #fileinput type="file" (change)="detectFiles($event)">
+          <img *ngFor="let url of avatar" [src]="url" class="rounded mb-3" width="180">
         </ion-item>
       </ion-list>
         

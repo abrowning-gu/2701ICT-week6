@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {NavParams } from '@ionic/angular';
 import { FormsModule} from '@angular/forms';
 import { ModalController } from '@ionic/angular/standalone';
-import { IonContent, IonHeader, IonTitle, IonToolbar,IonButtons,IonButton,IonBackButton,IonList,IonInput,IonItem, IonFooter,IonLabel} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar,IonButtons,IonButton,IonBackButton,IonList,IonItem,IonInput, IonFooter,IonLabel} from '@ionic/angular/standalone';
 import { User } from '../model/user';
+import { NgFor } from '@angular/common';
 
 
 @Component({
@@ -11,13 +12,14 @@ import { User } from '../model/user';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   standalone:true,
-  imports:[IonContent, IonHeader, IonTitle, IonToolbar,IonButtons,IonButton,IonBackButton,IonList,IonInput,IonItem,IonFooter,IonLabel,FormsModule ],
+  imports:[NgFor, IonContent, IonHeader, IonTitle, IonToolbar,IonButtons,IonButton,IonBackButton,IonList,IonItem,IonInput,IonFooter,IonLabel,FormsModule ],
 })
 export class ModalComponent  implements OnInit {
   public firstname:string ="";
   public lastname:string ="";
   public email:string ="";
   public editaddbtn:string = "Add";
+  public avatar = new Array<string>();
 
   constructor(private navParams:NavParams,private modalController:ModalController) { }
 
@@ -34,8 +36,37 @@ export class ModalComponent  implements OnInit {
     }
   }
   closemodal(){
-    let newuser = new User(this.firstname,this.lastname,this.email)
+    let newuser = new User(this.firstname,this.lastname,this.email,this.avatar)
     console.log(newuser);
     this.modalController.dismiss(newuser);
   }
+
+  detectFiles(event:any) {
+    
+      this.avatar = [];
+      
+      let files = event.target.files;
+      if (files) {
+        for (let file of files) {
+          //console.log(file);
+          if(file.type == "image/jpeg" || file.type == "image/png" ){
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.addEventListener("load", (e: any)=>{
+              this.avatar.push(e.target.result); 
+            });
+            reader.addEventListener("progress", (e:any)=>{
+              alert("loaded " + e.loaded + "total " + e.total);
+            });
+            
+            // reader.onload = (e: any) => {
+            //   this.avatar.push(e.target.result); 
+            // } 
+        }else{
+          alert("Illegal data type");
+        }
+        }
+      }
+    }
+   
 }

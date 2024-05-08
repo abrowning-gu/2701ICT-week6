@@ -16,18 +16,18 @@
     <h3>List of Users</h3>
     <div id="wrapper">
       <div class="master">
-    <ion-list>
-      
-      <ion-item-sliding *ngFor="let user of users;index as i" #userslider>
-        <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="delete(i,userslider)" >Delete</ion-item-option>
-          <ion-item-option  (click)="edit(i,userslider)">edit</ion-item-option>
-        </ion-item-options>
-      <ion-item (click)="showUser(i)">
-        {{user.firstname}},  {{user.lastname}}
-      </ion-item>
-    </ion-item-sliding>
-    </ion-list>
+        <ion-list>
+          
+          <ion-item-sliding *ngFor="let user of users;index as i" #userslider>
+            <ion-item-options side="end">
+              <ion-item-option color="danger" (click)="delete(i,userslider)" >Delete</ion-item-option>
+              <ion-item-option  (click)="edit(i,userslider)">edit</ion-item-option>
+            </ion-item-options>
+          <ion-item (click)="showUser(i)">
+            {{user.firstname}},  {{user.lastname}}
+          </ion-item>
+        </ion-item-sliding>
+        </ion-list>
     </div>
     <ion-alert></ion-alert>
     <div class="detail"><app-userdetails [user]="selecteduser"></app-userdetails></div>

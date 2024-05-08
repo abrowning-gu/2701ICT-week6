@@ -25,6 +25,8 @@ export class AccountPage implements OnInit {
   users:User[] = [];  // from service
   lastname:string="";  // for modal
   email:string=""
+
+  //pusers:Promise<any> | null =null;
   //currentuser:User = new User(this.firstname,this.lastname,this.email);
   constructor(private _activatedRoute:ActivatedRoute,private us:UserService,private modalController: ModalController,private alert:AlertController) { 
     addIcons({personAddOutline});
@@ -32,8 +34,11 @@ export class AccountPage implements OnInit {
 
   async ngOnInit() {
   //get a list of users at start up.
+  
      this.us.getUsers().then(val=>{
-      this.users = val;
+      if( val !== null){
+        this.users = val;
+      }
      });
   }
   async addContact(){
@@ -47,12 +52,18 @@ export class AccountPage implements OnInit {
   
    modal.onDidDismiss()
       .then((retval) => {
-        if (retval.data !== undefined){
-          console.log('data back from modal',retval.data);
-          this.us.addUser(new User(retval.data.firstname,retval.data.lastname,retval.data.email));
-          this.users.push(new User(retval.data.firstname,retval.data.lastname,retval.data.email));
-          this.us.set('userlist',this.users);
-        
+       
+;        if (retval.data !== undefined){
+          //console.log('data back from modal',retval.data);
+          let newuser = new User(retval.data.firstname,retval.data.lastname,retval.data.email,retval.data.avatar)
+          this.us.addUser(newuser);
+         
+          
+          if (this.users != null) {
+            this.users.push(newuser);
+          }else{
+            this.users = [newuser];          }
+         
         }
    });
      return modal.present();
@@ -73,6 +84,7 @@ export class AccountPage implements OnInit {
         firstname: this.users[i].firstname,
         lastname:this.users[i].lastname, 
         email:this.users[i].email,
+        avatar:this.users[i].avatar,
         }, backdropDismiss:false,
     });
    
@@ -83,6 +95,7 @@ export class AccountPage implements OnInit {
         this.users[i].firstname = retval.data.firstname;
         this.users[i].lastname = retval.data.lastname;
         this.users[i].email = retval.data.email;
+        this.users[i].avatar = retval.data.avatar;
         this.us.set('userlist',this.users);
         userslider.closeOpened();
    });
@@ -90,6 +103,7 @@ export class AccountPage implements OnInit {
   }
 
   async ionViewDidEnter(){
+   //this.pusers = this.us.getUsers();
      this.us.getUsers().then(val=>{
       this.users = val;
      });

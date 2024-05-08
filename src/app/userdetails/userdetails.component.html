@@ -4,5 +4,7 @@
   Last Name: {{user.lastname}}<br>
   Email: {{user.email}}<br>
 
+  <img *ngIf="user.avatar.length > 0" src="{{user.avatar}}" alt="avatar of {{user.firstname}}"/>
+
 
 </div>
